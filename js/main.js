@@ -4,6 +4,10 @@ let randomWord = wordsArray[Math.floor(Math.random() * wordsArray.length)];
 
 const NUMBER_ATTEMPTS = 6;
 
+
+let enteredLetterNumber = 0;
+
+
 function renderingField(){
   const gameBoard = document.querySelector('.game__board');
 
@@ -20,6 +24,28 @@ function renderingField(){
       rowsBoard.append(cellsBoard);
     }
   }
-} 
+}
+
+document.addEventListener('keydown', enteringWord)
+
+// let currentAttempt = NUMBER_ATTEMPTS
+
+function enteringWord(event){
+  const rowsBoard = document.querySelectorAll('.game__row');
+
+  if(enteredLetterNumber === 5){
+    return
+  }
+  
+  let entered = rowsBoard[0].children[enteredLetterNumber];
+
+  if(event.key.match(/[А-Яа-яЁё]/g)){
+    entered.innerHTML = event.key.toUpperCase();
+  }else{
+    enteredLetterNumber--
+  }
+    
+  enteredLetterNumber++
+}
 
 renderingField()
