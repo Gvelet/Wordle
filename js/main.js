@@ -39,7 +39,7 @@ function enteringWord(event){
   
   let entered = rowsBoard[0].children[enteredLetterNumber];
 
-  if(event.key.match(/[А-Яа-яЁё]/g)){
+  if(event.key.match(/[А-Яа-я]/g)){
     entered.innerHTML = event.key.toUpperCase();
   }else{
     enteredLetterNumber--
