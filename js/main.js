@@ -6,7 +6,7 @@ const NUMBER_ATTEMPTS = 6;
 
 
 let enteredLetterNumber = 0;
-
+let nextWords = 0
 
 function renderingField(){
   const gameBoard = document.querySelector('.game__board');
@@ -26,26 +26,43 @@ function renderingField(){
   }
 }
 
-document.addEventListener('keydown', enteringWord)
-
-// let currentAttempt = NUMBER_ATTEMPTS
-
-function enteringWord(event){
-  const rowsBoard = document.querySelectorAll('.game__row');
-
-  if(enteredLetterNumber === 5){
-    return
-  }
+document.addEventListener('keydown', (event) => {
   
-  let entered = rowsBoard[0].children[enteredLetterNumber];
+    //Удаляем буквы 
+    if(event.key === 'Backspace' && enteredLetterNumber != 0){
+      removeLetter()
+    }
 
-  if(event.key.match(/[А-Яа-я]/g)){
-    entered.innerHTML = event.key.toUpperCase();
-  }else{
-    enteredLetterNumber--
+
+  // Пишем с новой строки
+  if(event.key === 'Enter' && enteredLetterNumber === 5){
+    nextWords++
+    enteredLetterNumber = 0
   }
-    
+
+  // Вводим слово
+  if(event.key.match(/[А-Яа-я]/g)){
+    enteringWord(event.key)
+  }
+})
+
+function removeLetter(){
+  const rowsBoard = document.querySelectorAll('.game__row');
+  let entered = rowsBoard[nextWords].children[enteredLetterNumber - 1];
+  enteredLetterNumber-- 
+  entered.innerHTML = ''
+}
+
+function enteringWord(presssedKkey) {
+   if(enteredLetterNumber === 5){
+    return 
+   } 
+
+  const rowsBoard = document.querySelectorAll('.game__row');
+  let entered = rowsBoard[nextWords].children[enteredLetterNumber];
+  entered.innerHTML = presssedKkey.toUpperCase();
   enteredLetterNumber++
 }
+
 
 renderingField()
