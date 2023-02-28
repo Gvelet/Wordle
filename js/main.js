@@ -44,8 +44,7 @@ document.addEventListener('keydown', (event) => {
 
   // Вводим слово
   if(event.key.match(/[А-Яа-я]/g)){
-    enteringWord(event.key)
-    console.log(wastedTry)
+    enteringWord(event.key);
   }
 })
 
@@ -54,6 +53,7 @@ function removeLetter(){
   let entered = rowsBoard[nextWords].children[enteredLetterNumber - 1];
   enteredLetterNumber-- 
   entered.innerHTML = ''
+  entered.style.border = ''
 }
 
 function enteringWord(presssedKkey) {
@@ -64,9 +64,10 @@ function enteringWord(presssedKkey) {
   const rowsBoard = document.querySelectorAll('.game__row');
   let entered = rowsBoard[nextWords].children[enteredLetterNumber];
   entered.innerHTML = presssedKkey.toUpperCase();
+  entered.style.border = '1px solid black' 
   enteredLetterNumber++
 
-  wastedTry.push(presssedKkey)
+  wastedTry.push(presssedKkey);
 }
 
 
