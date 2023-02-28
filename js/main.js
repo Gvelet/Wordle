@@ -6,7 +6,8 @@ const NUMBER_ATTEMPTS = 6;
 
 
 let enteredLetterNumber = 0;
-let nextWords = 0
+let nextWords = 0;
+let wastedTry = [];
 
 function renderingField(){
   const gameBoard = document.querySelector('.game__board');
@@ -38,11 +39,13 @@ document.addEventListener('keydown', (event) => {
   if(event.key === 'Enter' && enteredLetterNumber === 5){
     nextWords++
     enteredLetterNumber = 0
+    wastedTry.length=0;
   }
 
   // Вводим слово
   if(event.key.match(/[А-Яа-я]/g)){
     enteringWord(event.key)
+    console.log(wastedTry)
   }
 })
 
@@ -62,6 +65,8 @@ function enteringWord(presssedKkey) {
   let entered = rowsBoard[nextWords].children[enteredLetterNumber];
   entered.innerHTML = presssedKkey.toUpperCase();
   enteredLetterNumber++
+
+  wastedTry.push(presssedKkey)
 }
 
 
