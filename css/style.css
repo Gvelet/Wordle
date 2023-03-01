@@ -43,3 +43,28 @@
   text-align: center;
   line-height: 60px;
 }
+
+.result{
+  margin-top: 20px;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.message{
+  margin-right: 50px;
+  margin-top: 7px;
+  font-size: 26px;
+}
+
+.reset{
+  display: none;
+  text-decoration: none;
+  border: 1px solid #D54139;
+  padding: 10px;
+}
+
+.reset:hover{
+  background-color: #FF4B39;
+  color: #fff;
+}

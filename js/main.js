@@ -1,6 +1,7 @@
 import {wordsArray} from './arrayWords.js'
 
-let randomWord = wordsArray[Math.floor(Math.random() * wordsArray.length)];
+let randomWord = wordsArray[Math.floor(Math.random() * wordsArray.length)].toUpperCase();
+let result = document.querySelector('.message');
 
 const NUMBER_ATTEMPTS = 6;
 
@@ -37,6 +38,29 @@ document.addEventListener('keydown', (event) => {
 
   // Пишем с новой строки
   if(event.key === 'Enter' && enteredLetterNumber === 5){
+       // Проверка есть ли у нас вообще такое слово
+       if(!wordsArray.includes(wastedTry.join(''))){
+        result.innerHTML = 'Такого слова нет';
+        console.log(!wordsArray.includes(wastedTry.join('')))
+        return
+      }
+      wordCheck();
+      // Проверка на победу
+      if(wastedTry.join('') === randomWord){
+        const reset = document.querySelector('.reset');
+        reset.style = 'display: block';
+        result.innerHTML = 'Вы выйграли';
+    
+        return
+      }
+      // Проверка на пройгрыш
+      if(nextWords === NUMBER_ATTEMPTS - 1){
+        const reset = document.querySelector('.reset');
+        reset.style = 'display: block';
+        result.innerHTML = 'Вы проиграли';
+  
+        return  
+      }
     nextWords++
     enteredLetterNumber = 0
     wastedTry.length=0;
@@ -51,9 +75,11 @@ document.addEventListener('keydown', (event) => {
 function removeLetter(){
   const rowsBoard = document.querySelectorAll('.game__row');
   let entered = rowsBoard[nextWords].children[enteredLetterNumber - 1];
+  wastedTry.pop();
   enteredLetterNumber-- 
-  entered.innerHTML = ''
-  entered.style.border = ''
+  entered.innerHTML = '';
+  entered.style.border = '';
+  result.innerHTML = '';
 }
 
 function enteringWord(presssedKkey) {
@@ -65,9 +91,29 @@ function enteringWord(presssedKkey) {
   let entered = rowsBoard[nextWords].children[enteredLetterNumber];
   entered.innerHTML = presssedKkey.toUpperCase();
   entered.style.border = '1px solid black' 
+
   enteredLetterNumber++
 
-  wastedTry.push(presssedKkey);
+  wastedTry.push(presssedKkey.toUpperCase());
+}
+
+function wordCheck(){
+  const rowsBoard = document.querySelectorAll('.game__row');
+  let entered = rowsBoard[nextWords].children;
+  // Загаданное слово в виде массива
+  let arrLetterRandomWord = randomWord.split('');
+  // 1.Если в слове есть такая буква, но не на своем месте = желтым. Если нету серым. Если на своем - зеленым
+  for(let i=0; i<5; i++){
+    if(arrLetterRandomWord.indexOf(wastedTry[i]) === -1){
+      entered[i].style.backgroundColor = 'grey'
+    }
+    else if(arrLetterRandomWord[i] === wastedTry[i]){
+      entered[i].style.backgroundColor = 'green'
+    }
+    else{
+      entered[i].style.backgroundColor = 'yellow'
+    }
+  }
 }
 
 
