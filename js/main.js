@@ -1,4 +1,5 @@
 import {wordsArray} from './arrayWords.js'
+import {keyboard} from './keyboard.js'
 
 let randomWord = wordsArray[Math.floor(Math.random() * wordsArray.length)].toUpperCase();
 let result = document.querySelector('.message');
@@ -41,7 +42,6 @@ document.addEventListener('keydown', (event) => {
        // Проверка есть ли у нас вообще такое слово
        if(!wordsArray.includes(wastedTry.join(''))){
         result.innerHTML = 'Такого слова нет';
-        console.log(!wordsArray.includes(wastedTry.join('')))
         return
       }
       wordCheck();
@@ -115,6 +115,5 @@ function wordCheck(){
     }
   }
 }
-
 
 renderingField()

@@ -5,6 +5,10 @@
   box-sizing: content-box;
 }
 
+.game__inner{
+  margin-bottom: 30px;
+}
+
 .game__title{
   position: relative;
   padding-bottom: 10px;
@@ -57,6 +61,7 @@
   font-size: 26px;
 }
 .reset{
+  display: none;
   text-decoration: none;
   border: 1px solid #D54139;
   padding: 10px;
@@ -65,4 +70,22 @@
 .reset:hover{
   background-color: #FF4B39;
   color: #fff;
+}
+
+.keyboard{
+  text-align: center;
+}
+
+.keyboard__buttons{
+  max-width: 374px;
+}
+
+.keyboard__button{
+  min-width: 20px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  cursor: pointer;
 }
