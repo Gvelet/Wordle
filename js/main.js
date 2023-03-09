@@ -3,7 +3,7 @@ import {wordsArray} from './arrayWords.js'
 let randomWord = wordsArray[Math.floor(Math.random() * wordsArray.length)].toUpperCase();
 let result = document.querySelector('.message');
 
-const keyboardButtons = Array.from(document.querySelectorAll('.keyboard__button'));
+const keyboardButtons = document.querySelectorAll('.keyboard__button');
 
 const NUMBER_ATTEMPTS = 6;
 
@@ -51,7 +51,6 @@ document.addEventListener('click', (event) => {
     }
   }
 })
-
 document.addEventListener('keydown', (event) => {
   inputConditions(event)
 
@@ -132,17 +131,37 @@ function wordCheck(){
   // Загаданное слово в виде массива
   let arrLetterRandomWord = randomWord.split('');
   // 1.Если в слове есть такая буква, но не на своем месте = желтым. Если нету серым. Если на своем - зеленым
+  keyboardButtons.forEach(key => {
   for(let i=0; i<5; i++){
     if(arrLetterRandomWord.indexOf(wastedTry[i]) === -1){
       entered[i].style.backgroundColor = 'grey'
+      
+      if(key.innerHTML.toUpperCase() === entered[i].innerHTML){
+        key.classList.add('keyboard__button--gray')
+      }
     }
     else if(arrLetterRandomWord[i] === wastedTry[i]){
       entered[i].style.backgroundColor = 'green'
+
+      if(key.innerHTML.toUpperCase() === entered[i].innerHTML){
+          key.classList.remove('keyboard__button--yellow')
+          key.classList.add('keyboard__button--green')
+      }
     }
     else{
-      entered[i].style.backgroundColor = 'yellow'
+      entered[i].style.backgroundColor = 'yellow';
+    
+      if(entered[i].innerHTML === key.innerHTML.toUpperCase()){
+        if(key.classList.contains('keyboard__button--green')){
+          return
+        }else{
+          key.classList.add('keyboard__button--yellow')
+        }  
+      }
     }
+    
   }
+})
 }
 
 renderingField()

@@ -89,3 +89,15 @@
   margin-bottom: 5px;
   cursor: pointer;
 }
+
+.keyboard__button--green{
+  background-color: green;
+}
+
+.keyboard__button--yellow{
+  background-color: yellow;
+}
+
+.keyboard__button--gray{
+  background-color: gray;
+}
