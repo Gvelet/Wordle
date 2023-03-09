@@ -1,8 +1,9 @@
 import {wordsArray} from './arrayWords.js'
-import {keyboard} from './keyboard.js'
 
 let randomWord = wordsArray[Math.floor(Math.random() * wordsArray.length)].toUpperCase();
 let result = document.querySelector('.message');
+
+const keyboardButtons = Array.from(document.querySelectorAll('.keyboard__button'));
 
 const NUMBER_ATTEMPTS = 6;
 
@@ -29,50 +30,77 @@ function renderingField(){
   }
 }
 
-document.addEventListener('keydown', (event) => {
-  
-    //Удаляем буквы 
-    if(event.key === 'Backspace' && enteredLetterNumber != 0){
-      removeLetter()
-    }
+// Присваиваем аттрибуты кнопкам
+keyboardButtons.forEach(key => {
+  key.setAttribute('value-key', key.innerHTML);
 
-
-  // Пишем с новой строки
-  if(event.key === 'Enter' && enteredLetterNumber === 5){
-       // Проверка есть ли у нас вообще такое слово
-       if(!wordsArray.includes(wastedTry.join(''))){
-        result.innerHTML = 'Такого слова нет';
-        return
-      }
-      wordCheck();
-      // Проверка на победу
-      if(wastedTry.join('') === randomWord){
-        const reset = document.querySelector('.reset');
-        reset.style = 'display: block';
-        result.innerHTML = 'Вы выйграли';
-    
-        return
-      }
-      // Проверка на пройгрыш
-      if(nextWords === NUMBER_ATTEMPTS - 1){
-        const reset = document.querySelector('.reset');
-        reset.style = 'display: block';
-        result.innerHTML = 'Вы проиграли';
-  
-        return  
-      }
-    nextWords++
-    enteredLetterNumber = 0
-    wastedTry.length=0;
+  if(key.innerHTML === 'Ввод'){
+    key.setAttribute('value-key', 'Enter');
   }
+  if(key.innerHTML === '⌫'){
+    key.setAttribute('value-key', 'Backspace');
+  }
+})
 
-  // Вводим слово
+document.addEventListener('click', (event) => {
+  inputConditions(event);
+
+  if(event.target.hasAttribute('value-key')){
+    if(event.target.getAttribute('value-key') !== 'Backspace' && event.target.getAttribute('value-key') !== 'Enter'){
+      enteringWord(event.target.innerHTML);
+    }
+  }
+})
+
+document.addEventListener('keydown', (event) => {
+  inputConditions(event)
+
   if(event.key.match(/[А-Яа-я]/g)){
     enteringWord(event.key);
   }
 })
 
+function inputConditions(event){
+      //Удаляем буквы 
+      if(event.key === 'Backspace' || event.target.getAttribute('value-key') === 'Backspace' && enteredLetterNumber != 0){
+        removeLetter()
+      }
+  
+    // Пишем с новой строки
+    if(event.key === 'Enter' || event.target.getAttribute('value-key') === 'Enter'  && enteredLetterNumber === 5){
+         // Проверка есть ли у нас вообще такое слово
+         if(!wordsArray.includes(wastedTry.join(''))){
+          result.innerHTML = 'Такого слова нет';
+          return
+        }
+        wordCheck();
+        // Проверка на победу
+        if(wastedTry.join('') === randomWord){
+          const reset = document.querySelector('.reset');
+          reset.style = 'display: block';
+          result.innerHTML = 'Вы выйграли';
+      
+          return
+        }
+        // Проверка на пройгрыш
+        if(nextWords === NUMBER_ATTEMPTS - 1){
+          const reset = document.querySelector('.reset');
+          reset.style = 'display: block';
+          result.innerHTML = 'Вы проиграли';
+    
+          return  
+        }
+      nextWords++
+      enteredLetterNumber = 0
+      wastedTry.length=0;
+    }
+}
+
 function removeLetter(){
+  if(enteredLetterNumber === 0){
+    return
+  }
+
   const rowsBoard = document.querySelectorAll('.game__row');
   let entered = rowsBoard[nextWords].children[enteredLetterNumber - 1];
   wastedTry.pop();
@@ -89,6 +117,7 @@ function enteringWord(presssedKkey) {
 
   const rowsBoard = document.querySelectorAll('.game__row');
   let entered = rowsBoard[nextWords].children[enteredLetterNumber];
+
   entered.innerHTML = presssedKkey.toUpperCase();
   entered.style.border = '1px solid black' 
 
