@@ -86,7 +86,7 @@ function inputConditions(event){
           const reset = document.querySelector('.reset');
           reset.style = 'display: block';
           result.innerHTML = 'Вы проиграли';
-    
+          alert(`Слово ${randomWord}`)
           return  
         }
       nextWords++
